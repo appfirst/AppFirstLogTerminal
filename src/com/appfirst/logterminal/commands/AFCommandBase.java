@@ -29,8 +29,8 @@ public abstract class AFCommandBase {
 	protected Long getTimeArg(String arg, String prefix) {
 		Long ret = 0L;
 		String startString = arg.replace(prefix, "").trim();
-		if (startString.contains("-")) {
-			ret = createDate(startString.split("-"));
+		if (startString.contains(":")) {
+			ret = createDate(startString.split(":"));
 		} else {
 			ret = Long.parseLong(startString);
 		}

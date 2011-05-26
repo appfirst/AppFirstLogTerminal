@@ -70,7 +70,8 @@ public class AFLogSummaryCommand extends AFCommandBase {
 			return;
 		}
 
-		String url = String.format("%s/%d/data/", AFLogTerminal.baseUrl, id);
+		String url = String.format("%s/%s/%d/data/", AFLogTerminal.baseUrl,
+				AFLogTerminal.logUrl, id);
 		if (num > 1) {
 			url = String.format("%s?num=%d", url, num);
 		}
@@ -85,8 +86,8 @@ public class AFLogSummaryCommand extends AFCommandBase {
 		System.out.println(String.format(
 				"-------------Log summary count: %d------------", list.size()));
 		for (int cnt = 0; cnt < list.size(); cnt++) {
-			System.out.println(String.format("%s", Helper
-					.formatLongTime(list.get(cnt).getTime() * 1000)));
+			System.out.println(String.format("%s", Helper.formatLongTime(list
+					.get(cnt).getTime() * 1000)));
 			System.out.println(String.format("    Info: %s", list.get(cnt)
 					.getNum_info().toString()));
 			System.out.println(String.format("    Warning:  %s", list.get(cnt)

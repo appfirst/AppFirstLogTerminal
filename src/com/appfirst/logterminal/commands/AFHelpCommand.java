@@ -40,7 +40,7 @@ public class AFHelpCommand extends AFCommandBase {
 	public void execute(String arg) {
 
 		InputStream is = AFHelpCommand.class.getClassLoader().getResourceAsStream(
-				"com/appfirst/logterminal/Help.txt");
+				"com/appfirst/logterminal/help.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		try {
 			while (true) {

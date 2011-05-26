@@ -24,17 +24,21 @@ import com.appfirst.logterminal.clientMain.AFLogTerminal;
 
 /**
  * @author Bin Liu
- *
+ * 
  */
 public class AFLogDetailCommand extends AFCommandBase {
 	private AFClient client;
 	private List<LogDetailData> list;
-	
+
 	public AFLogDetailCommand(AFClient afClient) {
 		this.client = afClient;
 	}
-	/* (non-Javadoc)
-	 * @see com.appfirst.logterminal.commands.AFCommandBase#execute(java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.appfirst.logterminal.commands.AFCommandBase#execute(java.lang.String)
 	 */
 	@Override
 	public void execute(String arg) {
@@ -67,7 +71,8 @@ public class AFLogDetailCommand extends AFCommandBase {
 			return;
 		}
 
-		String url = String.format("%s/%d/detail/", AFLogTerminal.baseUrl, id);
+		String url = String.format("%s/%s/%d/detail/",
+				AFLogTerminal.baseUrl, AFLogTerminal.logUrl, id);
 		if (num > 1) {
 			url = String.format("%s?num=%d", url, num);
 		}
@@ -77,25 +82,24 @@ public class AFLogDetailCommand extends AFCommandBase {
 		System.out.println(String.format("Log detail for log id: %d ", id));
 		print();
 	}
-	
+
 	protected void print() {
 		System.out.println(String.format(
 				"-------------Log detail count: %d------------", list.size()));
 		for (int cnt = 0; cnt < list.size(); cnt++) {
-			System.out.println(String.format("%s", Helper
-					.formatLongTime(list.get(cnt).getTime() * 1000)));
+			System.out.println(String.format("%s", Helper.formatLongTime(list
+					.get(cnt).getTime() * 1000)));
 			System.out.println(String.format("    severity: %s", list.get(cnt)
 					.getSeverity().toString()));
 			System.out.println(String.format("    name:  %s", list.get(cnt)
 					.getName().toString()));
-			System.out.println(String.format("    classifier: %s", list.get(cnt)
-					.getClassifier().toString()));
+			System.out.println(String.format("    classifier: %s", list
+					.get(cnt).getClassifier().toString()));
 			System.out.println(String.format("    message: %s", list.get(cnt)
 					.getMessage().toString()));
-			
+
 		}
-		System.out
-				.println("-------------end----------");
+		System.out.println("-------------end----------");
 	}
 
 }

@@ -43,7 +43,8 @@ public class AFLogListCommand extends AFCommandBase {
 	public void execute(String arg) {
 		// TODO Auto-generated method stub
 		System.out.println("Querying...");
-		list = client.getLogList(AFLogTerminal.baseUrl);
+		list = client.getLogList(String.format("%s/%s", AFLogTerminal.baseUrl,
+				AFLogTerminal.logUrl));
 		print();
 	}
 
