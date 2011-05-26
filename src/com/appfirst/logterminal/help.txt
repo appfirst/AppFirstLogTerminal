@@ -1,22 +1,22 @@
-commands: help | list | summary | detail | login | url | quit
+commands: help | list(l) | summary(s) | detail(d) | login | url | quit
 usages:
-    -list
+    list|l
         list all the log entries for this tenant
-    -summary log-id [options] num={count} start={YYYY:MM:DD:hh:mm | hh:mm | epoch} end={YYYY:MM:DD:hh:mm | hh:mm | epoch}
+    summary|s log-id [options] num={count} start={YYYY:MM:DD:hh:mm | hh:mm | epoch} end={YYYY:MM:DD:hh:mm | hh:mm | epoch}
         show the summary data of a log entry using log id. 
         * num       is by default 1
         * start     don't get data before this time
         * end       get data back from this time
-    -detail log-id [options] num={count} start={YYYY:MM:DD:hh:mm | hh:mm | epoch} end={YYYY:MM:DD:hh:mm | hh:mm | epoch}
+    detail|d log-id [options] num={count} start={YYYY:MM:DD:hh:mm | hh:mm | epoch} end={YYYY:MM:DD:hh:mm | hh:mm | epoch}
         show the summary data of a log entry using log id. 
         * num       is by default 1
         * start     don't get data before this time
         * end       get data back from this time
-    -url https://**.**.**.** | https://hostname
+    url https://**.**.**.** | https://hostname
         update the frontend address
-    -login [username]:[password]
+    login [username]:[password]
         update the api key to switch tenant
-    -help
+    help
         print help
-    -quit
+    quit
         exit the program

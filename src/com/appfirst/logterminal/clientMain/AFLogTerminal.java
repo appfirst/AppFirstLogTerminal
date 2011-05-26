@@ -16,11 +16,13 @@
 package com.appfirst.logterminal.clientMain;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import com.appfirst.communication.*;
 import com.appfirst.logterminal.commands.AFAuthKeyCommand;
@@ -29,6 +31,7 @@ import com.appfirst.logterminal.commands.AFLogDetailCommand;
 import com.appfirst.logterminal.commands.AFLogListCommand;
 import com.appfirst.logterminal.commands.AFLogSummaryCommand;
 import com.appfirst.logterminal.commands.AFUrlCommand;
+import com.appfirst.types.LogEntry;
 import com.appfirst.types.Server;
 
 /**
@@ -42,13 +45,18 @@ public class AFLogTerminal {
 	public static String logUrl = "/api/v1/logs";
 	public static String baseUrl = "https://fedev/";
 	public static String serverUrl = "/api/v1/servers/";
+	public static HashMap<Integer, LogEntry> logIdMap = new HashMap<Integer, LogEntry>();
 	public static HashMap<Integer, String> serverNameMap = new HashMap<Integer, String>();
 
 	private static void reloadServers() {
 		System.out.println("update server list...");
 		serverNameMap.clear();
-		List<Server> servers = client
-				.getServerList(String.format("%s/%s", baseUrl, serverUrl));
+		List<Server> servers = client.getServerList(String.format("%s/%s",
+				baseUrl, serverUrl));
+		if (servers.size() == 0) {
+			System.out.println("Error getting server list. \nCrashing...");
+			System.exit(1);
+		}
 		for (int i = 0; i < servers.size(); i++) {
 			serverNameMap.put(servers.get(i).getId(), servers.get(i)
 					.getHostname());
@@ -94,32 +102,33 @@ public class AFLogTerminal {
 		System.out.print("Initializing...");
 		reloadServers();
 		System.out.println("Done.");
-		AFHelpCommand startHelp = new AFHelpCommand();
-		startHelp.execute("");
-		System.out.println("----------------------------------------\nInput commands: ");
+		AFLogListCommand myList = new AFLogListCommand();
+		myList.execute("");
+		System.out
+				.println("----------------------------------------\nInput commands: ");
 		int commandCount = 0;
+
 		while (true) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					System.in));
 			try {
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						System.in));
 				System.out.print("->");
 				String input = br.readLine();
 				if (input.equals("help")) {
 					AFHelpCommand help = new AFHelpCommand();
 					help.execute(input);
-				} else if (input.equals("quit")) {
+				} else if (input.equals("quit") || input.equals("q")) {
 					System.out.println(String.format("%d commands executed!",
 							commandCount));
 					System.out.println("bye!");
 					System.exit(0);
-				} else if (input.equals("list")) {
+				} else if (input.equals("list") || input.equals("l")) {
 					AFLogListCommand list = new AFLogListCommand();
 					list.execute("");
-				} else if (input.startsWith("summary")) {
-					AFLogSummaryCommand summary = new AFLogSummaryCommand(
-							);
+				} else if (input.startsWith("summary") || input.startsWith("s ")) {
+					AFLogSummaryCommand summary = new AFLogSummaryCommand();
 					summary.execute(input);
-				} else if (input.startsWith("detail")) {
+				} else if (input.startsWith("detail") || input.startsWith("d ")) {
 					AFLogDetailCommand detail = new AFLogDetailCommand();
 					detail.execute(input);
 				} else if (input.startsWith("url")) {
@@ -133,7 +142,7 @@ public class AFLogTerminal {
 				}
 				commandCount++;
 			} catch (IOException ioe) {
-				System.out.println("IO error trying to read your name!");
+				System.out.println("IO error. !");
 				System.exit(1);
 			} catch (Exception e) {
 				e.printStackTrace();

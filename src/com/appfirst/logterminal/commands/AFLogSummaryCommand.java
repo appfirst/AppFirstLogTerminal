@@ -21,6 +21,7 @@ import com.appfirst.communication.AFClient;
 import com.appfirst.communication.Helper;
 import com.appfirst.datatypes.LogSummaryData;
 import com.appfirst.logterminal.clientMain.AFLogTerminal;
+import com.appfirst.types.LogEntry;
 
 /**
  * @author Bin Liu
@@ -75,6 +76,11 @@ public class AFLogSummaryCommand extends AFCommandBase {
 		list = AFLogTerminal.client.getLogSummaryList(url);
 		System.out.println("Done");
 		System.out.println(String.format("Log summary for log id: %d ", id));
+		LogEntry log = AFLogTerminal.logIdMap.get(id);
+		if (log != null) {
+			System.out.println(String.format("    %s on %s  ", log.getSource(),
+					AFLogTerminal.serverNameMap.get(log.getServer_id())));
+		}
 		print();
 	}
 

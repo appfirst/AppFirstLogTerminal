@@ -21,6 +21,7 @@ import com.appfirst.communication.AFClient;
 import com.appfirst.communication.Helper;
 import com.appfirst.datatypes.LogDetailData;
 import com.appfirst.logterminal.clientMain.AFLogTerminal;
+import com.appfirst.types.LogEntry;
 
 /**
  * @author Bin Liu
@@ -28,7 +29,6 @@ import com.appfirst.logterminal.clientMain.AFLogTerminal;
  */
 public class AFLogDetailCommand extends AFCommandBase {
 	private List<LogDetailData> list;
-
 
 	/*
 	 * (non-Javadoc)
@@ -67,8 +67,8 @@ public class AFLogDetailCommand extends AFCommandBase {
 			return;
 		}
 
-		String url = String.format("%s/%s/%d/detail/",
-				AFLogTerminal.baseUrl, AFLogTerminal.logUrl, id);
+		String url = String.format("%s/%s/%d/detail/", AFLogTerminal.baseUrl,
+				AFLogTerminal.logUrl, id);
 		if (num > 1) {
 			url = String.format("%s?num=%d", url, num);
 		}
@@ -76,6 +76,11 @@ public class AFLogDetailCommand extends AFCommandBase {
 		list = AFLogTerminal.client.getLogDetailList(url);
 		System.out.println("Done");
 		System.out.println(String.format("Log detail for log id: %d ", id));
+		LogEntry log = AFLogTerminal.logIdMap.get(id);
+		if (log != null) {
+			System.out.println(String.format("    %s on %s  ", log.getSource(),
+					AFLogTerminal.serverNameMap.get(log.getServer_id())));
+		}
 		print();
 	}
 

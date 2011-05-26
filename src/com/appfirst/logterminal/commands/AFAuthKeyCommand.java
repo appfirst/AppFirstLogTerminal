@@ -41,7 +41,6 @@ public class AFAuthKeyCommand extends AFCommandBase {
 
 		AFLogTerminal.client.setmAuthString(args[1].getBytes());
 		System.out.println(String.format(
-				"Authorization key has been updated to %s ", AFLogTerminal.client
-						.getmAuthString().toString()));
+				"Authorization key has been updated to %s ", args[1]));
 	}
 }

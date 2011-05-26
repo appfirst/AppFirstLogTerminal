@@ -27,7 +27,6 @@ import com.appfirst.types.LogEntry;
 public class AFLogListCommand extends AFCommandBase {
 	private List<LogEntry> list = null;
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,18 +37,21 @@ public class AFLogListCommand extends AFCommandBase {
 	public void execute(String arg) {
 		// TODO Auto-generated method stub
 		System.out.println("Querying...");
-		list = AFLogTerminal.client.getLogList(String.format("%s/%s", AFLogTerminal.baseUrl,
-				AFLogTerminal.logUrl));
+		list = AFLogTerminal.client.getLogList(String.format("%s/%s",
+				AFLogTerminal.baseUrl, AFLogTerminal.logUrl));
 		print();
+		
 	}
 
 	private void print() {
-		System.out
-				.println(String.format(
-						"---------------%d logs in total.---------------", list
-								.size()));
+		AFLogTerminal.logIdMap.clear();
+		System.out.println(String.format(
+				"---------------%d log entries---------------", list.size()));
+		
 		for (int cnt = 0; cnt < list.size(); cnt++) {
-			System.out.println(String.format("-Log %d", list.get(cnt).getId()));
+			AFLogTerminal.logIdMap.put(list.get(cnt).getId(), list.get(cnt));
+			System.out.println(String.format("-Log id=%d", list.get(cnt)
+					.getId()));
 			System.out.println(String.format("     hostname: %s",
 					AFLogTerminal.serverNameMap.get(list.get(cnt)
 							.getServer_id())));
@@ -61,14 +63,18 @@ public class AFLogListCommand extends AFCommandBase {
 					.getFilter()));
 			System.out.println(String.format("     warining: %s", list.get(cnt)
 					.getWarning()));
-			System.out.println(String.format("     filter: %s", list.get(cnt)
-					.getCritical()));
 			System.out.println(String.format("     critical: %s", list.get(cnt)
+					.getCritical()));
+			System.out.println(String.format("     limit: %s", list.get(cnt)
 					.getLimit().toString()));
 		}
 
 		System.out
-				.println("-----------use log id for detail query------------------");
+				.println(String
+						.format(
+								"%d log entries, use 'summary log-id' or 'detail log-id' to see more details. ",
+								list.size()));
+		System.out.println("\033[31m\033[44mType 'help' for other usages. \033[0m");
 	}
 
 }
