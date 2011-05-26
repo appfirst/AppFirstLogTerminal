@@ -41,12 +41,14 @@ public class AFLogTerminal {
 	public static AFClient client = new AFClient();
 	public static String logUrl = "/api/v1/logs";
 	public static String baseUrl = "https://fedev/";
+	public static String serverUrl = "/api/v1/servers/";
 	public static HashMap<Integer, String> serverNameMap = new HashMap<Integer, String>();
 
 	private static void reloadServers() {
+		System.out.println("update server list...");
 		serverNameMap.clear();
 		List<Server> servers = client
-				.getServerList("https://fedev/api/v1/servers/");
+				.getServerList(String.format("%s/%s", baseUrl, serverUrl));
 		for (int i = 0; i < servers.size(); i++) {
 			serverNameMap.put(servers.get(i).getId(), servers.get(i)
 					.getHostname());
@@ -69,7 +71,7 @@ public class AFLogTerminal {
 					AFUrlCommand urlCommand = new AFUrlCommand();
 					urlCommand.execute(input);
 				} else if (input.startsWith("login")) {
-					AFAuthKeyCommand keyCommand = new AFAuthKeyCommand(client);
+					AFAuthKeyCommand keyCommand = new AFAuthKeyCommand();
 					keyCommand.execute(input);
 				}
 			}
@@ -111,20 +113,20 @@ public class AFLogTerminal {
 					System.out.println("bye!");
 					System.exit(0);
 				} else if (input.equals("list")) {
-					AFLogListCommand list = new AFLogListCommand(client);
+					AFLogListCommand list = new AFLogListCommand();
 					list.execute("");
 				} else if (input.startsWith("summary")) {
 					AFLogSummaryCommand summary = new AFLogSummaryCommand(
-							client);
+							);
 					summary.execute(input);
 				} else if (input.startsWith("detail")) {
-					AFLogDetailCommand detail = new AFLogDetailCommand(client);
+					AFLogDetailCommand detail = new AFLogDetailCommand();
 					detail.execute(input);
 				} else if (input.startsWith("url")) {
 					AFUrlCommand urlCommand = new AFUrlCommand();
 					urlCommand.execute(input);
 				} else if (input.startsWith("login")) {
-					AFAuthKeyCommand keyCommand = new AFAuthKeyCommand(client);
+					AFAuthKeyCommand keyCommand = new AFAuthKeyCommand();
 					keyCommand.execute(input);
 				} else {
 					System.out.println("Unknown command.");

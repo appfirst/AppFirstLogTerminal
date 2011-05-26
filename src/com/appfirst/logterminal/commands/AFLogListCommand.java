@@ -17,7 +17,6 @@ package com.appfirst.logterminal.commands;
 
 import java.util.List;
 
-import com.appfirst.communication.AFClient;
 import com.appfirst.logterminal.clientMain.AFLogTerminal;
 import com.appfirst.types.LogEntry;
 
@@ -26,13 +25,9 @@ import com.appfirst.types.LogEntry;
  * 
  */
 public class AFLogListCommand extends AFCommandBase {
-	private AFClient client = null;
 	private List<LogEntry> list = null;
 
-	public AFLogListCommand(AFClient afClient) {
-		this.client = afClient;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,7 +38,7 @@ public class AFLogListCommand extends AFCommandBase {
 	public void execute(String arg) {
 		// TODO Auto-generated method stub
 		System.out.println("Querying...");
-		list = client.getLogList(String.format("%s/%s", AFLogTerminal.baseUrl,
+		list = AFLogTerminal.client.getLogList(String.format("%s/%s", AFLogTerminal.baseUrl,
 				AFLogTerminal.logUrl));
 		print();
 	}

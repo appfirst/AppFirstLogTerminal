@@ -16,19 +16,19 @@
 package com.appfirst.logterminal.commands;
 
 import com.appfirst.communication.AFClient;
+import com.appfirst.logterminal.clientMain.AFLogTerminal;
 
 /**
  * @author Bin Liu
- *
+ * 
  */
 public class AFAuthKeyCommand extends AFCommandBase {
-	private AFClient client;
-	
-	public AFAuthKeyCommand(AFClient afClient) {
-		client = afClient;
-	}
-	/* (non-Javadoc)
-	 * @see com.appfirst.logterminal.commands.AFCommandBase#execute(java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.appfirst.logterminal.commands.AFCommandBase#execute(java.lang.String)
 	 */
 	@Override
 	public void execute(String arg) {
@@ -38,8 +38,10 @@ public class AFAuthKeyCommand extends AFCommandBase {
 			System.out.println("Authorization key can't be null");
 			return;
 		}
-		
-		client.setmAuthString(args[1].getBytes());
-		System.out.println("Authorization key has been updated. ");
+
+		AFLogTerminal.client.setmAuthString(args[1].getBytes());
+		System.out.println(String.format(
+				"Authorization key has been updated to %s ", AFLogTerminal.client
+						.getmAuthString().toString()));
 	}
 }

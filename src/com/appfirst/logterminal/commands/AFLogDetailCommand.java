@@ -27,12 +27,8 @@ import com.appfirst.logterminal.clientMain.AFLogTerminal;
  * 
  */
 public class AFLogDetailCommand extends AFCommandBase {
-	private AFClient client;
 	private List<LogDetailData> list;
 
-	public AFLogDetailCommand(AFClient afClient) {
-		this.client = afClient;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -77,7 +73,7 @@ public class AFLogDetailCommand extends AFCommandBase {
 			url = String.format("%s?num=%d", url, num);
 		}
 		System.out.println("Querying...	");
-		list = client.getLogDetailList(url);
+		list = AFLogTerminal.client.getLogDetailList(url);
 		System.out.println("Done");
 		System.out.println(String.format("Log detail for log id: %d ", id));
 		print();
